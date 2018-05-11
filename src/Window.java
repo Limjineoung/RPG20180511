@@ -7,12 +7,14 @@ public class Window extends PApplet implements Constants {
     public static Session session;
     public static HashMap<String,User> users = new HashMap<>();
     public static ArrayList<String> usersNameList = new ArrayList<>();
+    public static Map map;
 
     public Window() throws IOException {
         session = new Session("192.168.11.21", 5000);
         session.start();
         session.setOnSessionListener(this);
         Protocol.ToJoinProtocol("jinyeoung");
+        map = new Map();
         }
 
     @Override
@@ -35,7 +37,7 @@ public class Window extends PApplet implements Constants {
 
     @Override
     public void draw() {
-        background(255);
+        map.draw(this);
         for (int i = 0; i < usersNameList.size(); i++) {
             users.get(usersNameList.get(i)).onUpdate();
             users.get(usersNameList.get(i)).render(this);

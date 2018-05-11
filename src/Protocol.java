@@ -68,7 +68,7 @@ public class Protocol {
     }
 
     private static void MapProtocol(JsonObject jobj) {
-
+        JsonObject body = jobj.get("body").getAsJsonObject();
     }
 
     private static void itemConsumeProtocol(JsonObject jobj) {
