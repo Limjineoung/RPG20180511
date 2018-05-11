@@ -1,14 +1,18 @@
 import processing.core.PApplet;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Window extends PApplet implements Constants{
+public class Window extends PApplet implements Constants {
     public static Session session;
-    private CharacterData characterData;
+    public static HashMap<String,User> users = new HashMap<>();
+    public static ArrayList<String> usersNameList = new ArrayList<>();
 
     public Window() throws IOException {
-        session = new Session("127.0.0.1", 5555);
+        session = new Session("192.168.11.52", 8888);
         session.start();
-        characterData = new CharacterData(this, 100, 100);
+        session.setOnSessionListener(this);
+        Protocol.ToJoinProtocol("jinyeoung");
         }
 
     @Override
@@ -32,26 +36,33 @@ public class Window extends PApplet implements Constants{
     @Override
     public void draw() {
         background(255);
-        characterData.render();
+        for (int i = 0; i < usersNameList.size(); i++) {
+            users.get(usersNameList.get(i)).onUpdate();
+            users.get(usersNameList.get(i)).render();
+        }
     }
 
     @Override
     public void keyPressed() {
         if (keyCode >= 37 && keyCode <=40) {
-            if(keyCode == 37) characterData.direction = Constants.LEFT;
-            else if(keyCode == 38) characterData.direction = Constants.UP;
-            if(keyCode == 39) characterData.direction = Constants.RIGHT;
-            if(keyCode == 40) characterData.direction = Constants.DOWN;
+            String direction;
+            if(keyCode == 37) direction = Constants.LEFT;
+            else if(keyCode == 38) direction = Constants.UP;
+            else if(keyCode == 39) direction = Constants.RIGHT;
+            else direction = Constants.DOWN;
 
             try {
-                Protocol.ToMoveProtocol(characterData.direction);
+                Protocol.ToMoveProtocol(direction);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        else
+            System.out.println(keyCode);
     }
 
     @Override
     public void keyReleased(){
     }
+
 }

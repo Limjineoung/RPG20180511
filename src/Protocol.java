@@ -5,17 +5,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Protocol {
+    public static void ToJoinProtocol(String user) throws IOException {
+        Window.session.send("{\"type\":\"Join\",\"body\":{\"user\":\"" + user + "\"}}");
+    }
+
     public static void ToMoveProtocol(String direction) throws IOException {
         Window.session.send("{\"type\":\"Move\",\"body\":{\"direction\":\"" + direction + "\"}}");
     }
 
+    public static void ToAttackProtocol(String direction) throws IOException {
+        Window.session.send("{\"type\":\"Attack\"}");
+    }
+
     public static void FromUpdateProtocol(String jsonData) {
         Gson gson = new GsonBuilder().create();
-        User user;
-        ArrayList<User> users = new ArrayList<>();
+        UserState userState;
         ArrayList<String> datas = new ArrayList<>();
-        String data = "";
 
+        String data;
+        System.out.println(jsonData);
         String[] strs = jsonData.split("type\":|,\"users\":|\\}|\\{");
 
         if(strs[2].equals("\"Update\"")){
@@ -27,13 +35,12 @@ public class Protocol {
             }
 
             for (int i = 0; i < datas.size(); i++) {
-                user = gson.fromJson(datas.get(i), User.class);
-                users.add(user);
-            }
-            for(int i = 0; i < datas.size(); i++) {
-                System.out.println(users.get(i).toString());
+                userState = gson.fromJson(datas.get(i), UserState.class);
+
+                if(Window.users.containsKey(userState.user))
+                    Window.users.get(userState.user).userState = userState;
             }
         }
-
     }
+
 }
