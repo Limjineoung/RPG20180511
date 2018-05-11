@@ -13,6 +13,7 @@ class Session extends Thread {
 
     Session(String ip, int port) throws IOException {
         isCancelled = false;
+
         socket = new Socket(ip, port);
     }
 
