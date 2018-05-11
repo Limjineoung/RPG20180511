@@ -19,7 +19,7 @@ public class Protocol {
         String[] strs = jsonData.split("type\":|,\"users\":|\\}|\\{");
 
         if(strs[2].equals("\"Update\"")){
-            for(int i = 4; i<strs.length; i++) {
+            for(int i = 4; i< strs.length; i++) {
                 if (i%2 == 0) {
                     data = "{" + strs[i] + "}";
                     datas.add(data);
@@ -30,8 +30,10 @@ public class Protocol {
                 user = gson.fromJson(datas.get(i), User.class);
                 users.add(user);
             }
+            for(int i = 0; i < datas.size(); i++) {
+                System.out.println(users.get(i).toString());
+            }
         }
 
-        System.out.println("")
     }
 }
