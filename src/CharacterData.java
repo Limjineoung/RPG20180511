@@ -1,7 +1,9 @@
 import processing.core.PApplet;
 
 public class CharacterData extends View implements Constants {
-    private String direction;
+    public String direction;
+
+
     public CharacterData (PApplet pApplet, int x, int y) {
         super(pApplet, x, y);
         direction = DOWN;

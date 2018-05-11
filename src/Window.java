@@ -2,7 +2,7 @@ import processing.core.PApplet;
 import java.io.IOException;
 
 public class Window extends PApplet implements Constants{
-    private Session session;
+    public static Session session;
     private CharacterData characterData;
 
     public Window() throws IOException {
@@ -35,14 +35,23 @@ public class Window extends PApplet implements Constants{
         characterData.render();
     }
 
-    public void keyPressed(){
-        try {
-            session.send("{\"type\":\"stop\",\"body\":{\"user\":\"mj\"}}");
-        } catch (IOException e) {
-            e.printStackTrace();
+    @Override
+    public void keyPressed() {
+        if (keyCode >= 37 && keyCode <=40) {
+            if(keyCode == 37) characterData.direction = Constants.LEFT;
+            else if(keyCode == 38) characterData.direction = Constants.UP;
+            if(keyCode == 39) characterData.direction = Constants.RIGHT;
+            if(keyCode == 40) characterData.direction = Constants.DOWN;
+
+            try {
+                Protocol.MoveProtocol(characterData.direction);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
+    @Override
     public void keyReleased(){
     }
 }
