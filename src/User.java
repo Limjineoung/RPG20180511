@@ -1,33 +1,32 @@
 import processing.core.PApplet;
 
-public class User extends View{
-    public UserState userState;
+public class User{
+    String user;
+    float x;
+    float y;
+    int hp;
+    String direction;
+    int score;
+    String state;
 
 
-    public User (PApplet pApplet) {
-        super(pApplet);
-        userState.direction = Constants.DOWN;
+    public User () {
+        direction = Constants.DOWN;
     }
 
-    @Override
     public void onUpdate() {
-        position.x = userState.x;
-        position.y = userState.y;
     }
 
-    @Override
-    public void render() {
+    public void render(PApplet pApplet) {
         pApplet.fill(255, 0, 0);
-        pApplet.rect(position.x, position.y, 10, 10);
+        pApplet.rect(x, y, 10, 10);
     }
 
-    @Override
-    public void onCollision(View view) {
+    public void onCollision() {
 
     }
 
-    @Override
-    public boolean isCollision(float mouseX, float mouseY) {
+    public boolean isCollision(float x, float y) {
         return false;
     }
 }

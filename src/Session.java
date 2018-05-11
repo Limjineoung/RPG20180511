@@ -23,19 +23,19 @@ class Session extends Thread {
 
     @Override
     public void run() {
-        byte[] buf = new byte[128];
+        byte[] buf = new byte[8192];
         try (InputStream is = socket.getInputStream();
              DataInputStream dis = new DataInputStream(is)) {
             while (!isCancelled) {
                 if(dis.available() > -1) {
-                    int len = dis.readInt();
+                    int len = dis.readShort();
                     int data = readn(dis,buf,len);
                     if (data == -1) {
                         break;
                     }
 
                     String jsonData = new String(buf, 0, len);
-                    Protocol.FromUpdateProtocol(jsonData);
+                    Protocol.FromServerProtocol(jsonData);
                 }
             }
         } catch (IOException e) {
@@ -49,7 +49,7 @@ class Session extends Thread {
         OutputStream os = socket.getOutputStream();
         DataOutputStream dos = new DataOutputStream(os);
         System.out.println(msg);
-        dos.writeInt(msg.getBytes().length);
+        dos.writeShort(msg.getBytes().length);
         dos.write(msg.getBytes());
     }
 

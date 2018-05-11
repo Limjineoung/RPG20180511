@@ -9,7 +9,7 @@ public class Window extends PApplet implements Constants {
     public static ArrayList<String> usersNameList = new ArrayList<>();
 
     public Window() throws IOException {
-        session = new Session("192.168.11.52", 8888);
+        session = new Session("192.168.11.21", 5000);
         session.start();
         session.setOnSessionListener(this);
         Protocol.ToJoinProtocol("jinyeoung");
@@ -38,7 +38,7 @@ public class Window extends PApplet implements Constants {
         background(255);
         for (int i = 0; i < usersNameList.size(); i++) {
             users.get(usersNameList.get(i)).onUpdate();
-            users.get(usersNameList.get(i)).render();
+            users.get(usersNameList.get(i)).render(this);
         }
     }
 
