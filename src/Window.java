@@ -44,7 +44,7 @@ public class Window extends PApplet implements Constants{
             if(keyCode == 40) characterData.direction = Constants.DOWN;
 
             try {
-                Protocol.MoveProtocol(characterData.direction);
+                Protocol.ToMoveProtocol(characterData.direction);
             } catch (IOException e) {
                 e.printStackTrace();
             }
